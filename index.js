@@ -1,4 +1,3 @@
-require("dotenv").config()
 require("./utils/functions")
 require("./utils/models")
 
