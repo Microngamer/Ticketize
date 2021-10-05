@@ -21,21 +21,6 @@ for (const folder of commandsFolder) {
     }
 }
 
-/* client.slash_commands = new DiscordJS.Collection()
-const slash_commandsFolder = fs.readdirSync("./slash_commands")
-for (const folder of slash_commandsFolder) {
-    const slash_commandsFile = fs.readdirSync(`./slash_commands/${folder}`).filter(file => file.endsWith(".js"))
-    for (const file of slash_commandsFile) {
-        const slash_command = require(`./slash_commands/${folder}/${file}`)
-        client.slash_commandscommands.set(slash_command.name, slash_command)
-
-        client.on("ready", async () => {
-            
-        })
-    }
-}
-*/
-
 const eventsFolder = fs.readdirSync("./events")
 for (const folder of eventsFolder) {
     const eventsFile = fs.readdirSync(`./events/${folder}`).filter(file => file.endsWith(".js"))
