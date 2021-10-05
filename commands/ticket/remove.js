@@ -1,5 +1,3 @@
-const DiscordJS = require("discord.js")
-
 module.exports = {
     name: "remove",
     aliases: ["rmv", "kick"],
