@@ -143,6 +143,46 @@ module.exports = {
             configs.findOne({ GuildId: button.guild.id }, async (err, data) => {
                 if (data) {
                     if (data.Request_To_Close && data.Request_To_Close == true) {
+                        tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
+                            if (!data) return
+                
+                            client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                                configs.findOne({ GuildId: button.guild.id }, async (err, data) => {
+                                    if(!data) return
+
+                                    if (data.Claim_Button && data.Claim_Button == true) {
+                                        var button1 = new MessageButton()
+                                        .setLabel("Claim the Ticket")
+                                        .setStyle("green")
+                                        .setEmoji("🔑")
+                                        .setID("claim")
+                                        var row = new MessageActionRow()
+                                        .addComponent(button1)
+                                        var embed = new DiscordJS.MessageEmbed()
+                                        .setTitle("Ticket open")
+                                        .setColor("#5A65EF")
+                                        .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
+                                        .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+                                        msg.edit({ component: row, embed: embed })
+                                    } else if (data.Claim_Button && data.Claim_Button == false || data && !data.Claim_Button) {
+                                        var button1 = new MessageButton()
+                                        .setLabel("Cancel")
+                                        .setStyle("red")
+                                        .setEmoji("🚫")
+                                        .setID("cancel_close")
+                                        var row = new MessageActionRow()
+                                        .addComponent(button1)
+                                        var embed = new DiscordJS.MessageEmbed()
+                                        .setTitle("Ticket open")
+                                        .setColor("#5A65EF")
+                                        .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
+                                        .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+                                        msg.edit({ component: row, embed: embed })
+                                    }
+                                })
+                            })
+                        })
+
                         var button1 = new MessageButton()
                         .setLabel("Close the Ticket")
                         .setStyle("red")
@@ -158,7 +198,7 @@ module.exports = {
                         .addComponent(button2)
                         button.channel.send("❓ | **Are you sure to close this ticket?**", row)
                     } else {
-                        tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: buttonchannel.id }, async (err, data) => {
+                        tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
                             if (!data) return
                 
                             await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
@@ -194,7 +234,7 @@ module.exports = {
                 else
             if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
 
-            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: buttonchannel.id }, async (err, data) => {
+            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
                 if (!data) return
     
                 await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
@@ -207,6 +247,58 @@ module.exports = {
             })
             
             button.channel.delete()
+        } else if (button.id == "cancel_close") {
+            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
+
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+                else
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+
+            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
+                if (!data) return
+    
+                client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                    configs.findOne({ GuildId: button.guild.id }, async (err, data) => {
+                        if(!data) return
+
+                        if (data.Claim_Button && data.Claim_Button == true) {
+                            var button1 = new MessageButton()
+                            .setLabel("Close the Ticket")
+                            .setStyle("red")
+                            .setEmoji("🔒")
+                            .setID("close")
+                            var button2 = new MessageButton()
+                            .setLabel("Claim the Ticket")
+                            .setStyle("green")
+                            .setEmoji("🔑")
+                            .setID("claim")
+                            var row = new MessageActionRow()
+                            .addComponent(button1)
+                            .addComponent(button2)
+                            var embed = new DiscordJS.MessageEmbed()
+                            .setTitle("Ticket open")
+                            .setColor("#5A65EF")
+                            .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
+                            .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+                            msg.edit({ component: row, embed: embed })
+                        } else if (data.Claim_Button && data.Claim_Button == false || data && !data.Claim_Button) {
+                            var button1 = new MessageButton()
+                            .setLabel("Close the Ticket")
+                            .setStyle("red")
+                            .setEmoji("🔒")
+                            .setID("close")
+                            var row = new MessageActionRow()
+                            .addComponent(button1)
+                            var embed = new DiscordJS.MessageEmbed()
+                            .setTitle("Ticket open")
+                            .setColor("#5A65EF")
+                            .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
+                            .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+                            msg.edit({ component: row, embed: embed })
+                        }
+                    })
+                })
+            })
         }
     }
 }
