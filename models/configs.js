@@ -9,7 +9,6 @@ module.exports = mongo.model(
         RoleId: String,
         MessageId: String,
         Message: String,
-        Claim_Button: Boolean,
-        Request_To_Close: Boolean
+        Claim_Button: Boolean
     })
 )

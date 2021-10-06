@@ -1,6 +1,3 @@
-const DiscordJS = require("discord.js")
-const { MessageActionRow, MessageButton } = require("discord-buttons")
-
 module.exports = {
     name: "close",
     aliases: [],
