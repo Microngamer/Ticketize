@@ -6,13 +6,7 @@ module.exports = {
     aliases: [],
     async execute (message, args, prefix) {
         configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
-            if (!data) {
-                setTimeout(() => {
-                    message.delete()
-                }, 0000)
-
-                return send_error(message, "In this server there isn't a ticket system")
-            }
+            if (!data) return send_error(message, "In this server there isn't a ticket system")
             if (message.guild.channels.cache.find(ch => ch.topic == `Tickets powered by ${client.user.username} | User ID: ${message.author.id}`)) return send_error(message, "You have already a ticket open.")
 
             message.guild.channels.create(`ticket-${message.author.username}`, {

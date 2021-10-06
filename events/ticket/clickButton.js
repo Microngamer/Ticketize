@@ -1,6 +1,5 @@
 const DiscordJS = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
-const fs = require("fs")
 
 module.exports = {
     name: "clickButton",
@@ -76,6 +75,7 @@ module.exports = {
                     .setColor("#5A65EF")
                     .setDescription(`${button.clicker.user.username}, thanks for open a ticket! Here you can ask support at the staff`)
                     .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+
                     ch.send({ component: row, embed: embed }).then(msg => {
                         tickets.findOne({ GuildId: button.guild.id, UserId: button.clicker.user.id, ChannelId: ch.id }, async (err, data) => {
                             if (data) {
