@@ -1,5 +1,6 @@
 const DiscordJS = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
+const fs = require("fs")
 
 module.exports = {
     name: "clickButton",
@@ -10,7 +11,7 @@ module.exports = {
             configs.findOne({ GuildId: button.guild.id }, async (err, data) => {
                 if (!data) return
                 if (button.channel.id != data.ChannelId) return
-                if (button.guild.channels.cache.find(ch => ch.topic == `Tickets powered by ${client.user.username} | User ID: ${button.clicker.user.id}`)) return button.clicker.user.send("You have already a ticket open.").catch(() => {})
+                if (button.guild.channels.cache.find(ch => ch.topic == `Tickets powered by ${client.user.username} | User ID: ${button.clicker.user.id}`)) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You have already a ticket open.**").catch(() => {})
     
                 button.guild.channels.create(`ticket-${button.clicker.user.username}`, {
                     type: "text",
@@ -100,9 +101,9 @@ module.exports = {
         } else if (button.id == "claim") {
             if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
 
-            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("I need to have \`MANAGE_CHANNELS\` permission.").catch(() => {})
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
                 else
-            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("You need to have \`MANAGE_CHANNELS\` permission.").catch(() => {})
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
             
             if (button.channel.permissionsFor(button.guild.roles.everyone).has("VIEW_CHANNEL")) return button.clicker.user.send("This ticket is already claimed.").catch(() => {})
     
@@ -135,22 +136,76 @@ module.exports = {
         } else if (button.id == "close") {
             if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
 
-            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("I need to have \`MANAGE_CHANNELS\` permission.").catch(() => {})
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
                 else
-            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("You need to have \`MANAGE_CHANNELS\` permission.").catch(() => {})
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
     
-            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
+            configs.findOne({ GuildId: button.guild.id }, async (err, data) => {
+                if (data) {
+                    if (data.Request_To_Close && data.Request_To_Close == true) {
+                        var button1 = new MessageButton()
+                        .setLabel("Close the Ticket")
+                        .setStyle("red")
+                        .setEmoji("🔒")
+                        .setID("close_confirm")
+                        var button2 = new MessageButton()
+                        .setLabel("Save in Transcript")
+                        .setStyle("gray")
+                        .setEmoji("📝")
+                        .setID("transcript")
+                        var row = new MessageActionRow()
+                        .addComponent(button1)
+                        .addComponent(button2)
+                        button.channel.send("❓ | **Are you sure to close this ticket?**", row)
+                    } else {
+                        tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: buttonchannel.id }, async (err, data) => {
+                            if (!data) return
+                
+                            await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
+                        })
+                
+                        transcripts.findOne({ GuildId: button.guild.id, ChannelId: button.channel.id }, async (err, data) => {
+                            if (!data) return
+                
+                            await transcripts.findOneAndDelete({ GuildId: button.guild.id, ChannelId: button.channel.id })
+                        })
+                        
+                        button.channel.delete()
+                    }
+                }
+            })
+        } else if (button.id == "transcript") {
+            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
+
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+                else
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+
+            transcripts.findOne({ GuildId: button.guild.id, ChannelId: button.channel.id }, async (err, data) => {
+                if (!data) return button.clicker.user.send(`Create a transcript in this ticket is impossible, retry again.`)
+
+                fs.writeFileSync(`../transcript-${button.channel.id}.txt`, data.Messages.join("\n"))
+                button.channel.send(`<:TicketizeMARK:883296061911871488> | **Succesfully saved transcript**`, new DiscordJS.MessageAttachment(fs.createReadStream(`../transcript-${button.channel.id}.txt`)))
+            })
+        } else if (button.id == "close_confirm") {
+            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
+
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+                else
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+
+            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: buttonchannel.id }, async (err, data) => {
                 if (!data) return
-            
+    
                 await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
             })
     
             transcripts.findOne({ GuildId: button.guild.id, ChannelId: button.channel.id }, async (err, data) => {
                 if (!data) return
-            
+    
                 await transcripts.findOneAndDelete({ GuildId: button.guild.id, ChannelId: button.channel.id })
             })
-    
+            
             button.channel.delete()
         }
     }
