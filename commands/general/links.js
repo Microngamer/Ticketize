@@ -8,7 +8,7 @@ module.exports = {
         var button1 = new MessageButton()
         .setLabel("Invite")
         .setStyle("url")
-        .setURL("https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=268741648&scope=bot%20applications.commands")
+        .setURL("https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=8&scope=bot%20applications.commands")
         .setEmoji("🎟️")
         var button2 = new MessageButton()
         .setLabel("Support")
