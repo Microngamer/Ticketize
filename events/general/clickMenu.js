@@ -21,7 +21,7 @@ module.exports = {
                 .setTitle(`Configuration | Commands List`)
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setColor("#030000")
-                .setDescription(`**All commands to set up the ticket system**\n\n\`${prefix}ticket-channel\` **|** \`${prefix}ticket-category\` **|** \`${prefix}support-role\` **|** \`${prefix}claim-button\` **|** \`${prefix}request-to-close\` **|** \`${prefix}reset-system\` **|** \`${prefix}embed-text\` **|**  \`${prefix}prefix\``)
+                .setDescription(`**All commands to set up the ticket system**\n\n\`${prefix}ticket-channel\` **|** \`${prefix}ticket-category\` **|** \`${prefix}support-role\` **|** \`${prefix}claim-button\` **|** \`${prefix}request-to-close (beta)\` **|** \`${prefix}reset-system\` **|** \`${prefix}embed-text\` **|**  \`${prefix}prefix\``)
                 .setFooter(`Requested by ${menu.clicker.user.username}`, menu.clicker.user.displayAvatarURL({ dynamic: true }))
                 menu.message.edit(embed)
             } else if (menu.values[0] == "ticket") {
@@ -29,7 +29,7 @@ module.exports = {
                 .setTitle(`Ticket | Commands List`)
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setColor("#030000")
-                .setDescription(`**All commands for a ticket channel**\n\n\`${prefix}add\` **|** \`${prefix}remove\` **|** \`${prefix}open\` **|** \`${prefix}close\` **|** \`${prefix}claim\` **|** \`${prefix}unclaim\` **|** \`${prefix}transcript\``)
+                .setDescription(`**All commands for a ticket channel**\n\n\`${prefix}add\` **|** \`${prefix}remove\` **|** \`${prefix}open\` **|** \`${prefix}close\` **|** \`${prefix}claim\` **|** \`${prefix}unclaim\` **|** \`${prefix}transcript (beta)\``)
                 .setFooter(`Requested by ${menu.clicker.user.username}`, menu.clicker.user.displayAvatarURL({ dynamic: true }))
                 menu.message.edit(embed)
             }

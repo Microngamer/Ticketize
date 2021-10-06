@@ -224,7 +224,7 @@ module.exports = {
             if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
 
             transcripts.findOne({ GuildId: button.guild.id, ChannelId: button.channel.id }, async (err, data) => {
-                if (!data) return button.clicker.user.send(`Create a transcript in this ticket is impossible, retry again.`)
+                if (!data) return button.clicker.user.send(`<:TicketizeX:883296073102270494> | **Create a transcript in this ticket is impossible, retry again.**`)
 
                 fs.writeFileSync(`../transcript-${button.channel.id}.txt`, data.Messages.join("\n"))
                 button.channel.send(`<:TicketizeMARK:883296061911871488> | **Succesfully saved transcript**`, new DiscordJS.MessageAttachment(fs.createReadStream(`../transcript-${button.channel.id}.txt`)))
