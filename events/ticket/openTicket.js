@@ -4,6 +4,8 @@ const { MessageButton, MessageActionRow } = require("discord-buttons")
 module.exports = {
     name: "clickButton",
     async execute(button) {
+        button.reply.defer()
+        
         if (button.id != "open") return
 
         configs.findOne({ GuildId: button.guild.id }, async (err, data) => {

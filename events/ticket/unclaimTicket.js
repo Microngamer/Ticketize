@@ -4,6 +4,8 @@ const { MessageButton, MessageActionRow } = require("discord-buttons")
 module.exports = {
     name: "clickButton",
     async execute(button) {
+        button.reply.defer()
+        
         if (button.id != "unclaim") return
 
         if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
