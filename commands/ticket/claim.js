@@ -13,13 +13,19 @@ module.exports = {
             if (!data) return
 
             client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
-                var button = new MessageButton()
+                var button1 = new MessageButton()
                 .setLabel("Close the Ticket")
                 .setStyle("red")
                 .setEmoji("🔒")
                 .setID("close")
+                var button2 = new MessageButton()
+                .setLabel("Unclaim the Ticket")
+                .setStyle("green")
+                .setEmoji("🔐")
+                .setID("unclaim")
                 var row = new MessageActionRow()
-                .addComponent(button)
+                .addComponent(button1)
+                .addComponent(button2)
                 var embed = new DiscordJS.MessageEmbed()
                 .setTitle("Ticket open")
                 .setColor("#5A65EF")

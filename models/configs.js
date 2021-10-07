@@ -8,7 +8,6 @@ module.exports = mongo.model(
         ChannelId: String,
         RoleId: String,
         MessageId: String,
-        Message: String,
-        Claim_Button: Boolean
+        Message: String
     })
 )

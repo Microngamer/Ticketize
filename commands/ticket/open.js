@@ -23,6 +23,9 @@ module.exports = {
                 .setStyle("green")
                 .setEmoji("🔑")
                 .setID("claim")
+                var row = new MessageActionRow()
+                .addComponent(button1)
+                .addComponent(button2)
 
                 if (data.CategoryId) ch.setParent(data.CategoryId)
 
@@ -55,15 +58,6 @@ module.exports = {
                         }
                     ])
                     var tag_text = `${message.guild.owner.toString()}`
-                }
-
-                if (data.Claim_Button && data.Claim_Button == true) {
-                    var row = new MessageActionRow()
-                    .addComponent(button1)
-                    .addComponent(button2)
-                } else if (data.Claim_Button && data.Claim_Button == false || data && !data.Claim_Button) {
-                    var row = new MessageActionRow()
-                    .addComponent(button1)
                 }
 
                 ch.send(tag_text).then(msg => { msg.delete({ timeout: 0000 }) })
