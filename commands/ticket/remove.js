@@ -17,8 +17,6 @@ module.exports = {
             VIEW_CHANNEL: false
         })
 
-        setTimeout(() => {
-            message.delete()
-        }, 0000)
+        send_correct(message, `${member.user.username} has been removed to the ticket.`)
     }
 }

@@ -1,5 +1,3 @@
-const DiscordJS = require("discord.js")
-
 module.exports = {
     name: "message",
     async execute (message) {
