@@ -1,8 +1,6 @@
 module.exports = {
     name: "clickButton",
     async execute(button) {
-        if (button.id != "close") return
-
         if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
 
         if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
