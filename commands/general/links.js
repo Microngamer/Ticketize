@@ -8,7 +8,7 @@ module.exports = {
         var button1 = new MessageButton()
         .setLabel("Invite")
         .setStyle("url")
-        .setURL("https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=8&scope=bot%20applications.commands")
+        .setURL("https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=268741648&scope=bot%20applications.commands")
         .setEmoji("🎟️")
         var button2 = new MessageButton()
         .setLabel("Support")
@@ -34,7 +34,7 @@ module.exports = {
         .setTitle(`${client.user.username} | Links`)
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
         .setColor("#030000")
-        .setDescription(`**All links are here**\n🎟️ Invite - [Click here](https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=8&scope=bot%20applications.commands)\n🧑‍🤝‍🧑 Support - [Click here](https://discord.gg/B5pyQg4qmw)\n🏆 Vote - [Click here]()\n🐱 Github - [Click here](https://github.com/XenKys/Ticketize)`)
+        .setDescription(`**All links are here**\n🎟️ Invite - [Click here](https://discord.com/api/oauth2/authorize?client_id=882986907280228372&permissions=268741648&scope=bot%20applications.commands)\n🧑‍🤝‍🧑 Support - [Click here](https://discord.gg/B5pyQg4qmw)\n🏆 Vote - [Click here]()\n🐱 Github - [Click here](https://github.com/XenKys/Ticketize)`)
         .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
         message.channel.send({ component: row, embed: embed })
     }
