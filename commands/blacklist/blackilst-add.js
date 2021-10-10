@@ -13,7 +13,7 @@ module.exports = {
 
         blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (data) {
-                if ([member.id].includes(data.Users) || data.Users.includes(member.id)) return send_error(message, "This user is already in the blacklist.")
+                if (data.Users.includes(member.id)) return send_error(message, "This user is already in the blacklist.")
 
                 data.Users.push(member.id)
                 data.save()

@@ -13,12 +13,7 @@ module.exports = {
 
         blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (data) {
-                if (![member.id].includes(data.Users) || !data.Users.includes(member.id)) return send_error(message, "This user is not in the blacklist.")
-                if (data.Users.length < 1) {
-                    await blacklists.findOneAndDelete({ GuildId: message.guild.id })
-
-                    return send_correct(message, `${member.user.username} has been removed from the blacklist.`)
-                }
+                if (!data.Users.includes(member.id)) return send_error(message, "This user is not in the blacklist.")
 
                 data.Users.splice(member.id, 1)
                 data.save()
