@@ -29,6 +29,12 @@ module.exports = {
             if (!message.channel.permissionsFor(message.author).has(run_command.permission)) return send_error(message, `You need to have the permission \`${run_command.permission}\``)
         }
 
+        blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
+            if (!data) return
+
+            if ([message.author.id].includes(data.Users) || data.Users.includes(message.author.id)) return send_error(message, "You are in the blacklist of this server, you can't use my commands.")
+        })
+
         try {
             if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 5 seconds.`)
             run_command.execute (message, args, prefix)
