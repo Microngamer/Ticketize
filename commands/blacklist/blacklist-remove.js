@@ -9,7 +9,7 @@ module.exports = {
 
         blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (data) {
-                if (data.Users.length < 1) {
+                if (data.Users.length < 18 || data.Users.length == 18) {
                     await blacklists.findOneAndDelete({ GuildId: message.guild.id })
 
                     return send_correct(message, `The user number ${number} has been removed from the blacklist.`)
