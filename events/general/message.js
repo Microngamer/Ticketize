@@ -36,14 +36,14 @@ module.exports = {
         })
 
         try {
-            if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 5 seconds.`)
+            if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 3 seconds.`)
             run_command.execute (message, args, prefix)
 
             cooldowns.set(message.author.id)
 
             setTimeout(() => {
                 cooldowns.delete(message.author.id)
-            }, 5000)
+            }, 3000)
         } catch {
             return send_error(message, `An error occurred in the executing of the command.`)
         }

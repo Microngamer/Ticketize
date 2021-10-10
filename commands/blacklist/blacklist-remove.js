@@ -1,6 +1,6 @@
 module.exports = {
     name: "blacklist-remove",
-    aliases: ["bl-rmv"],
+    aliases: ["blacklist-rmv", "bl-remove", "bl-rmv"],
     permission: "MANAGE_CHANNELS",
     async execute(message, args, prefix) {
         let number = args[0]
