@@ -3,7 +3,7 @@ module.exports = {
     aliases: ["bl-rmv"],
     permission: "MANAGE_CHANNELS",
     async execute(message, args, prefix) {
-        let number = parseInt(args[1]) - 1
+        let number = parseInt(args[0]) - 1
 
         if (!number) return send_error(message, "You didn't provide a number.")
 

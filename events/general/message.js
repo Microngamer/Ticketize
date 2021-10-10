@@ -32,7 +32,7 @@ module.exports = {
         blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (!data) return
 
-            if ([message.author.id].includes(data.Users) || data.Users.includes(message.author.id)) return send_error(message, "You are in the blacklist of this server, you can't use my commands.")
+            if (data.Users.includes(message.author.id)) return send_error(message, "You are in the blacklist of this server, you can't use my commands.")
         })
 
         try {
