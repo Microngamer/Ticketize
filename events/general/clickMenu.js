@@ -32,14 +32,6 @@ module.exports = {
                 .setDescription(`**All commands for a ticket channel**\n\n\`${prefix}add\` **|** \`${prefix}remove\` **|** \`${prefix}open\` **|** \`${prefix}close\` **|** \`${prefix}claim\` **|** \`${prefix}unclaim\` **|** \`${prefix}transcript\``)
                 .setFooter(`Requested by ${menu.clicker.user.username}`, menu.clicker.user.displayAvatarURL({ dynamic: true }))
                 menu.message.edit(embed)
-            } else if (menu.values[0] == "blacklist") {
-                var embed = new DiscordJS.MessageEmbed()
-                .setTitle(`Blacklist | Commands List`)
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setColor("#030000")
-                .setDescription(`**All commands for the blacklist**\n\n\`${prefix}blacklist-add\` **|** \`${prefix}blacklist-remove\` **|** \`${prefix}blacklist\``)
-                .setFooter(`Requested by ${menu.clicker.user.username}`, menu.clicker.user.displayAvatarURL({ dynamic: true }))
-                menu.message.edit(embed)
             }
         }
     }
