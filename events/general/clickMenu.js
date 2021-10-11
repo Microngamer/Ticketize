@@ -29,7 +29,7 @@ module.exports = {
                 .setTitle(`Ticket | Commands List`)
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setColor("#030000")
-                .setDescription(`**All commands for a ticket channel**\n\n\`${prefix}add\` **|** \`${prefix}remove\` **|** \`${prefix}open\` **|** \`${prefix}close\` **|** \`${prefix}claim\` **|** \`${prefix}unclaim\` **|** \`${prefix}transcript\``)
+                .setDescription(`**All commands for a ticket channel**\n\n\`${prefix}add\` **|** \`${prefix}remove\` **|** \`${prefix}open\` **|** \`${prefix}close\` **|** \`${prefix}claim\` **|** \`${prefix}unclaim\` **|** \`${prefix}transcript\` **|** \`${prefix}rename\``)
                 .setFooter(`Requested by ${menu.clicker.user.username}`, menu.clicker.user.displayAvatarURL({ dynamic: true }))
                 menu.message.edit(embed)
             }
