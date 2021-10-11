@@ -20,6 +20,12 @@ module.exports = {
         if (!message.guild.me.permissionsIn(message.channel).has("SEND_MESSAGES")) return message.guild.owner.user.send(`<:TicketizeX:883296073102270494> | **I need to have the permission \`SEND_MESSAGES\`.**`)
         if (!message.guild.me.permissionsIn(message.channel).has("USE_EXTERNAL_EMOJIS")) return message.guild.owner.user.send(`<:TicketizeX:883296073102270494> | **I need to have the permission \`USE_EXTERNAL_EMOJIS\`.**`)
         if (!client.commands.has(command) && !client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command))) return
+        
+        blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
+            if (!data) return
+
+            if (data.Users.includes(message.author.id)) return send_error(message, "You are in the blacklist of this server, you can't use my commands.")
+        })
 
         var run_command = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command))
 
@@ -30,20 +36,14 @@ module.exports = {
         }
 
         try {
-            blacklists.findOne({ GuildId: message.guild.id }, async (err, data) => {
-                if (!data) return
-    
-                if (data.Users.includes(message.author.id)) return send_error(message, "You are in the blacklist of this server, you can't use my commands.")
-                    else
-                if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 3 seconds.`)
-                run_command.execute(message, args, prefix)
-        
-                cooldowns.set(message.author.id)
-        
-                setTimeout(() => {
-                    cooldowns.delete(message.author.id)
-                }, 3000)
-            })
+            if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 3 seconds.`)
+            run_command.execute(message, args, prefix)
+
+            cooldowns.set(message.author.id)
+
+            setTimeout(() => {
+                cooldowns.delete(message.author.id)
+            }, 3000)
         } catch {
             return send_error(message, `An error occurred in the executing of the command.`)
         }
