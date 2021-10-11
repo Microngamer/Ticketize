@@ -26,6 +26,6 @@ for (const folder of eventsFolder) {
     const eventsFile = fs.readdirSync(`./events/${folder}`).filter(file => file.endsWith(".js"))
     for (const file of eventsFile) {
         const event = require(`./events/${folder}/${file}`)
-        client.on(event.name, (...args) => event.execute (...args))
+        client.on(event.name, (...args) => event.execute(...args))
     }
 }
