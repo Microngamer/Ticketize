@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord-buttons": "^4.0.0",
+    "discord-ghost-transcript": "^1.0.1",
     "discord.js": "^12.5.3",
     "mongoose": "^6.0.3"
   }

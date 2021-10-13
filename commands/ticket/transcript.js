@@ -1,5 +1,5 @@
 const DiscordJS = require("discord.js")
-const fs = require("fs")
+const DiscordTRANSCRIPT = require("discord-ghost-transcript")
 
 module.exports = {
     name: "transcript",
@@ -8,11 +8,9 @@ module.exports = {
     async execute (message, args, prefix) {
         if (!message.channel.topic || !message.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return send_error(message, "This command is avaible only a ticket channel.")
 
-        transcripts.findOne({ GuildId: message.guild.id, ChannelId: message.channel.id }, async (err, data) => {
-            if (!data) return send_error(message, `Create a transcript in this ticket is impossible, retry again.`)
-
-            fs.writeFileSync(`../transcript-${message.channel.id}.txt`, data.Messages.join("\n"))
-            message.channel.send(`<:TicketizeMARK:883296061911871488> | **Succesfully saved transcript**`, new DiscordJS.MessageAttachment(fs.createReadStream(`../transcript-${message.channel.id}.txt`)))
+        DiscordTRANSCRIPT.fetchTranscript(message).then(data => {
+            const file = new DiscordJS.MessageAttachment(data, `transcript-${message.channel.id}.html`)
+            message.channel.send(`<:TicketizeMARK:883296061911871488> | **Succesfully saved transcript**`, file)
         })
     }
 }
