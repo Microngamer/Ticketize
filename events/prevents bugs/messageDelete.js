@@ -1,5 +1,3 @@
-const DiscordJS = require("discord.js")
-
 module.exports = {
     name: "messageDelete",
     async execute (message) {
@@ -10,6 +8,6 @@ module.exports = {
                 await configs.findOneAndRemove({ GuildId: message.guild.id, MessageId: message.id })
                 await configs.findOneAndRemove({ GuildId: message.guild.id, ChannelId: message.channel.id })
             }
-        })  
+        }) 
     }
 }

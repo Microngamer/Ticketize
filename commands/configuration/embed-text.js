@@ -94,7 +94,7 @@ module.exports = {
                             if (data.Title) {
                                 var title = data.Title
                             } else {
-                                var title = "Click the button to open a ticket"
+                                var title = "Open a Ticket"
                             }
 
                             if (data.Footer) {
@@ -161,7 +161,7 @@ module.exports = {
                             if (data.Title) {
                                 var title = data.Title
                             } else {
-                                var title = "Click the button to open a ticket"
+                                var title = "Open a Ticket"
                             }
 
                             if (data.Description) {
