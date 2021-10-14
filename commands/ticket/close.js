@@ -10,12 +10,6 @@ module.exports = {
 
             await tickets.findOneAndDelete({ GuildId: message.guild.id, UserId: message.channel.topic.slice(40), ChannelId: message.channel.id })
         })
-
-        transcripts.findOne({ GuildId: message.guild.id, ChannelId: message.channel.id }, async (err, data) => {
-            if (!data) return
-
-            await transcripts.findOneAndDelete({ GuildId: message.guild.id, ChannelId: message.channel.id })
-        })
         
         message.channel.delete()
     }

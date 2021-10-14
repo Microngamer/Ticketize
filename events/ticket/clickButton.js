@@ -210,12 +210,6 @@ module.exports = {
     
                 await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
             })
-    
-            transcripts.findOne({ GuildId: button.guild.id, ChannelId: button.channel.id }, async (err, data) => {
-                if (!data) return
-    
-                await transcripts.findOneAndDelete({ GuildId: button.guild.id, ChannelId: button.channel.id })
-            })
             
             button.channel.delete()
         }
