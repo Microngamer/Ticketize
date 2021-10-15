@@ -20,62 +20,23 @@ module.exports = {
             configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
                 if (data && !data.ChannelId || data && !data.MessageId || !data) return send_error(message, "In this server there isn't a ticket channel.")
     
-                client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                message.guild.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
 
-                    texts.findOne({ GuildId: message.guild.id }, async (err, data) => {
-                        if (data) {
-                            if (data.Description) {
-                                var desc = data.Description
-                            } else {
-                                var desc = "Click the button to open a ticket"
-                            }
+                    var embed = new DiscordJS.MessageEmbed()
+                    .setTitle(text)
+                    .setColor("#5A65EF")
+                    .setDescription(msg.embeds[0].description)
+                    .setFooter(msg.embeds[0].footer)
+                    var button1 = new MessageButton()
+                    .setLabel("Open a Ticket")
+                    .setStyle("blurple")
+                    .setEmoji("📩")
+                    .setID("open")
+                    var row = new MessageActionRow()
+                    .addComponent(button1)
 
-                            if (data.Footer) {
-                                var footer = data.Footer
-                            } else {
-                                var footer = `Tickets powered by ${client.user.username}`
-                            }
+                    msg.edit({ component: row, embed: embed })
 
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle(text)
-                            .setColor("#5A65EF")
-                            .setDescription(desc)
-                            .setFooter(footer, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-
-                            data.Title = text
-                            data.save()
-                        } else {
-                            new texts({
-                                GuildId: message.guild.id,
-                                Title: text
-                            }).save()
-
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle(text)
-                            .setColor("#5A65EF")
-                            .setDescription("Click the button to open a ticket")
-                            .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-                        }
-                    })
-    
                     send_correct(message, "The title of the embed in the ticket channel has been changed.")
                 })
             })
@@ -87,61 +48,22 @@ module.exports = {
             configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
                 if (data && !data.ChannelId || data && !data.MessageId || !data) return send_error(message, "In this server there isn't a ticket channel.")
     
-                client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                message.guild.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
 
-                    texts.findOne({ GuildId: message.guild.id }, async (err, data) => {
-                        if (data) {
-                            if (data.Title) {
-                                var title = data.Title
-                            } else {
-                                var title = "Open a Ticket"
-                            }
+                    var embed = new DiscordJS.MessageEmbed()
+                    .setTitle(msg.embeds[0].title)
+                    .setColor("#5A65EF")
+                    .setDescription(text)
+                    .setFooter(msg.embeds[0].footer)
+                    var button1 = new MessageButton()
+                    .setLabel("Open a Ticket")
+                    .setStyle("blurple")
+                    .setEmoji("📩")
+                    .setID("open")
+                    var row = new MessageActionRow()
+                    .addComponent(button1)
 
-                            if (data.Footer) {
-                                var footer = data.Footer
-                            } else {
-                                var footer = `Tickets powered by ${client.user.username}`
-                            }
-
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle(title)
-                            .setColor("#5A65EF")
-                            .setDescription(text)
-                            .setFooter(footer, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-
-                            data.Description = text
-                            data.save()
-                        } else {
-                            new texts({
-                                GuildId: message.guild.id,
-                                Description: text
-                            }).save()
-
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle("Open a Ticket")
-                            .setColor("#5A65EF")
-                            .setDescription(text)
-                            .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-                        }
-                    })
+                    msg.edit({ component: row, embed: embed })
     
                     send_correct(message, "The description of the embed in the ticket channel has been changed.")
                 })
@@ -154,61 +76,22 @@ module.exports = {
             configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
                 if (data && !data.ChannelId || data && !data.MessageId || !data) return send_error(message, "In this server there isn't a ticket channel.")
     
-                client.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                message.guild.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
 
-                    texts.findOne({ GuildId: message.guild.id }, async (err, data) => {
-                        if (data) {
-                            if (data.Title) {
-                                var title = data.Title
-                            } else {
-                                var title = "Open a Ticket"
-                            }
+                    var embed = new DiscordJS.MessageEmbed()
+                    .setTitle(msg.embeds[0].title)
+                    .setColor("#5A65EF")
+                    .setDescription(msg.embeds[0].description)
+                    .setFooter(text, client.user.displayAvatarURL({ dynamic: true }))
+                    var button1 = new MessageButton()
+                    .setLabel("Open a Ticket")
+                    .setStyle("blurple")
+                    .setEmoji("📩")
+                    .setID("open")
+                    var row = new MessageActionRow()
+                    .addComponent(button1)
 
-                            if (data.Description) {
-                                var desc = data.Description
-                            } else {
-                                var desc = "Click the button to open a ticket"
-                            }
-
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle(title)
-                            .setColor("#5A65EF")
-                            .setDescription(desc)
-                            .setFooter(text, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-
-                            data.Description = text
-                            data.save()
-                        } else {
-                            new texts({
-                                GuildId: message.guild.id,
-                                Description: text
-                            }).save()
-
-                            var embed = new DiscordJS.MessageEmbed()
-                            .setTitle("Open a Ticket")
-                            .setColor("#5A65EF")
-                            .setDescription("Click the button to open a ticket")
-                            .setFooter(text, client.user.displayAvatarURL({ dynamic: true }))
-                            var button1 = new MessageButton()
-                            .setLabel("Open a Ticket")
-                            .setStyle("blurple")
-                            .setEmoji("📩")
-                            .setID("open")
-                            var row = new MessageActionRow()
-                            .addComponent(button1)
-
-                            msg.edit({ component: row, embed: embed })
-                        }
-                    })
+                    msg.edit({ component: row, embed: embed })
     
                     send_correct(message, "The footer of the embed in the ticket channel has been changed.")
                 })
