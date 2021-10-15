@@ -7,20 +7,16 @@ module.exports = {
 
         if (!query) return send_error(message, "You didn't provide a prefix.")
         if (query == prefix) return send_error(message, "This is already the prefix.")
-        if (query == "t!") {
-            await prefixes.findOneAndDelete({ GuildId: message.guild.id }) 
-            return send_correct(message, `The prefix has been changed to ${query}.`)
-        }
         if (query.length > 5) return send_error(message, "The prefix must be under 5 characters.")
 
-        prefixes.findOne({ GuildId: message.guild.id }, async (err, data) => {
+        configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (data) {
                 if (data.Prefix && data.Prefix == query) return send_error(message, "This is already the prefix.")
 
                 data.Prefix = query
                 data.save()
             } else {
-                new prefixes({
+                new configs({
                     GuildId: message.guild.id,
                     Prefix: query
                 }).save()

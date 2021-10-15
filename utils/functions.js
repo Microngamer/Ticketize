@@ -1,11 +1,15 @@
 require("../index")
 
 global.load_prefixes = async function(param) {
-    const data = await prefixes.findOne({ GuildId: param.guild.id })
+    const data = await configs.findOne({ GuildId: param.guild.id })
         .catch(err => console.log(err))
 
     if (data) {
-        var prefix = data.Prefix
+        if (data.Prefix) {
+            var prefix = data.Prefix
+        } else {
+            var prefix = "t!"
+        }
     } else {
         var prefix = "t!"
     }

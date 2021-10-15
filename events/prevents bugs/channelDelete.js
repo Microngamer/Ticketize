@@ -1,5 +1,3 @@
-const DiscordJS = require("discord.js")
-
 module.exports = {
     name: "channelDelete",
     async execute (channel) {

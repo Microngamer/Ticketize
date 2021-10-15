@@ -4,6 +4,7 @@ module.exports = mongo.model(
     "configs",
     new mongo.Schema({
         GuildId: String,
+        Prefix: String,
         CategoryId: String,
         ChannelId: String,
         RoleId: String,
