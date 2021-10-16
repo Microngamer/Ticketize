@@ -1,3 +1,4 @@
+const DiscordJS = require("discord.js")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
 
 module.exports = {
