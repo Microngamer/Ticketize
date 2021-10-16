@@ -104,33 +104,37 @@ module.exports = {
                 else
             if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
 
-            send_correct(button, "The ticket will be close in a few seconds.")
+            button.channel.send("<:TicketizeMARK:883296061911871488> | **The ticket will be close in a few seconds.**")
+
+            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
+                if (!data) return
+
+                button.guild.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
+                    var button1 = new MessageButton()
+                    .setLabel("Transcript")
+                    .setStyle("gray")
+                    .setEmoji("📝")
+                    .setID("transcript")
+                    var button2 = new MessageButton()
+                    .setLabel("Claim the Ticket")
+                    .setStyle("green")
+                    .setEmoji("🔑")
+                    .setID("claim")
+                    var row = new MessageActionRow()
+                    .addComponent(button1)
+                    .addComponent(button2)
+                    var embed = new DiscordJS.MessageEmbed()
+                    .setTitle("Ticket open")
+                    .setColor("#5A65EF")
+                    .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
+                    .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
+                    msg.edit({ component: row, embed: embed })
+                })
+            })
 
             setTimeout(() => {  
                 tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
                     if (!data) return
-
-                    button.guild.channels.cache.get(data.ChannelId).messages.fetch(data.MessageId).then(msg => {
-                        var button1 = new MessageButton()
-                        .setLabel("Transcript")
-                        .setStyle("gray")
-                        .setEmoji("📝")
-                        .setID("transcript")
-                        var button2 = new MessageButton()
-                        .setLabel("Claim the Ticket")
-                        .setStyle("green")
-                        .setEmoji("🔑")
-                        .setID("claim")
-                        var row = new MessageActionRow()
-                        .addComponent(button1)
-                        .addComponent(button2)
-                        var embed = new DiscordJS.MessageEmbed()
-                        .setTitle("Ticket open")
-                        .setColor("#5A65EF")
-                        .setDescription(`${client.users.cache.get(data.UserId).username}, thanks for open a ticket! Here you can ask support at the staff`)
-                        .setFooter(`Tickets powered by ${client.user.username}`, client.user.displayAvatarURL({ dynamic: true }))
-                        msg.edit({ component: row, embed: embed })
-                    })
         
                     await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
                 })
