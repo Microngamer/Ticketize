@@ -13,19 +13,6 @@ module.exports = {
                 type: "text",
                 topic: `Tickets powered by ${client.user.username} | User ID: ${message.author.id}`
             }).then(ch => {
-                var button1 = new MessageButton()
-                .setLabel("Close the Ticket")
-                .setStyle("red")
-                .setEmoji("🔒")
-                .setID("close")
-                var button2 = new MessageButton()
-                .setLabel("Claim the Ticket")
-                .setStyle("green")
-                .setEmoji("🔑")
-                .setID("claim")
-                var row = new MessageActionRow()
-                .addComponent(button1)
-                .addComponent(button2)
 
                 if (data.CategoryId) ch.setParent(data.CategoryId)
 
@@ -45,7 +32,7 @@ module.exports = {
                         }
                     ])
 
-                    var tag_text = `${message.guild.owner.toString()} <@&${data.RoleId}>`
+                    ch.send(`${message.guild.owner.toString()} <@&${data.RoleId}>`).then(msg => { msg.delete({ timeout: 0000 }) })
                 } else {
                     ch.overwritePermissions([
                         {
@@ -57,10 +44,28 @@ module.exports = {
                             allow: ["VIEW_CHANNEL"]
                         }
                     ])
-                    var tag_text = `${message.guild.owner.toString()}`
+                    ch.send(message.guild.owner.toString()).then(msg => { msg.delete({ timeout: 0000 }) })
                 }
 
-                ch.send(tag_text).then(msg => { msg.delete({ timeout: 0000 }) })
+                var button1 = new MessageButton()
+                .setLabel("Close the Ticket")
+                .setStyle("red")
+                .setEmoji("🔒")
+                .setID("close")
+                var button2 = new MessageButton()
+                .setLabel("Transcript")
+                .setStyle("gray")
+                .setEmoji("📝")
+                .setID("transcript")
+                var button3 = new MessageButton()
+                .setLabel("Claim the Ticket")
+                .setStyle("green")
+                .setEmoji("🔑")
+                .setID("claim")
+                var row = new MessageActionRow()
+                .addComponent(button1)
+                .addComponent(button2)
+                .addComponent(button3)
                 var embed = new DiscordJS.MessageEmbed()
                 .setTitle("Ticket open")
                 .setColor("#5A65EF")

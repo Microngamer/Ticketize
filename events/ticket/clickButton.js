@@ -1,4 +1,5 @@
 const DiscordJS = require("discord.js")
+const DiscordTRANSCRIPT = require("discord-ghost-transcript")
 const { MessageButton, MessageActionRow } = require("discord-buttons")
 
 module.exports = {
@@ -16,19 +17,6 @@ module.exports = {
                     type: "text",
                     topic: `Tickets powered by ${client.user.username} | User ID: ${button.clicker.user.id}`
                 }).then(ch => {
-                    var button1 = new MessageButton()
-                    .setLabel("Close the Ticket")
-                    .setStyle("red")
-                    .setEmoji("🔒")
-                    .setID("close")
-                    var button2 = new MessageButton()
-                    .setLabel("Claim the Ticket")
-                    .setStyle("green")
-                    .setEmoji("🔑")
-                    .setID("claim")
-                    var row = new MessageActionRow()
-                    .addComponent(button1)
-                    .addComponent(button2)
     
                     if (data.CategoryId) ch.setParent(data.CategoryId)
     
@@ -48,7 +36,7 @@ module.exports = {
                             }
                         ])
     
-                        var tag_text = `${button.guild.owner.toString()} <@&${data.RoleId}>`
+                        ch.send(`${button.guild.owner.toString()} <@&${data.RoleId}>`).then(msg => { msg.delete({ timeout: 0000 }) })
                     } else {
                         ch.overwritePermissions([
                             {
@@ -60,10 +48,28 @@ module.exports = {
                                 allow: ["VIEW_CHANNEL"]
                             }
                         ])
-                        var tag_text = `${button.guild.owner.toString()}`
+                        ch.send(button.guild.owner.toString()).then(msg => { msg.delete({ timeout: 0000 }) })
                     }
     
-                    ch.send(tag_text).then(msg => { msg.delete({ timeout: 0000 }) })
+                    var button1 = new MessageButton()
+                    .setLabel("Close the Ticket")
+                    .setStyle("red")
+                    .setEmoji("🔒")
+                    .setID("close")
+                    var button2 = new MessageButton()
+                    .setLabel("Transcript")
+                    .setStyle("gray")
+                    .setEmoji("📝")
+                    .setID("transcript")
+                    var button3 = new MessageButton()
+                    .setLabel("Claim the Ticket")
+                    .setStyle("green")
+                    .setEmoji("🔑")
+                    .setID("claim")
+                    var row = new MessageActionRow()
+                    .addComponent(button1)
+                    .addComponent(button2)
+                    .addComponent(button3)
                     var embed = new DiscordJS.MessageEmbed()
                     .setTitle("Ticket open")
                     .setColor("#5A65EF")
@@ -91,6 +97,31 @@ module.exports = {
                     })
                 })
             })
+        } else if (button.id == "close") {
+            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
+
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+                else
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+    
+            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
+                if (!data) return
+    
+                await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
+            })
+            
+            button.channel.delete()
+        } else if (button.id == "transcript") {
+            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
+
+            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+                else
+            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
+    
+            DiscordTRANSCRIPT.fetchTranscript(button.channel, button.message, 99).then(data => {
+                const file = new DiscordJS.MessageAttachment(data, `transcript-${button.channel.id}.html`)
+                button.channel.send(`<:TicketizeMARK:883296061911871488> | **Succesfully saved transcript**`, file)
+            })
         } else if (button.id == "claim") {
             if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
 
@@ -110,6 +141,11 @@ module.exports = {
                     .setEmoji("🔒")
                     .setID("close")
                     var button2 = new MessageButton()
+                    .setLabel("Transcript")
+                    .setStyle("gray")
+                    .setEmoji("📝")
+                    .setID("transcript")
+                    var button3 = new MessageButton()
                     .setLabel("Unclaim the Ticket")
                     .setStyle("green")
                     .setEmoji("🔐")
@@ -117,6 +153,7 @@ module.exports = {
                     var row = new MessageActionRow()
                     .addComponent(button1)
                     .addComponent(button2)
+                    .addComponent(button3)
                     var embed = new DiscordJS.MessageEmbed()
                     .setTitle("Ticket open")
                     .setColor("#5A65EF")
@@ -151,6 +188,11 @@ module.exports = {
                     .setEmoji("🔒")
                     .setID("close")
                     var button2 = new MessageButton()
+                    .setLabel("Transcript")
+                    .setStyle("gray")
+                    .setEmoji("📝")
+                    .setID("transcript")
+                    var button3 = new MessageButton()
                     .setLabel("Claim the Ticket")
                     .setStyle("green")
                     .setEmoji("🔑")
@@ -158,6 +200,7 @@ module.exports = {
                     var row = new MessageActionRow()
                     .addComponent(button1)
                     .addComponent(button2)
+                    .addComponent(button3)
                     var embed = new DiscordJS.MessageEmbed()
                     .setTitle("Ticket open")
                     .setColor("#5A65EF")
@@ -198,20 +241,6 @@ module.exports = {
                     ])
                 }
             })
-        } else if (button.id == "close") {
-            if (!button.channel.topic || !button.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
-
-            if (!button.guild.me.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **I need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
-                else
-            if (!button.message.member.hasPermission("MANAGE_CHANNELS")) return button.clicker.user.send("<:TicketizeX:883296073102270494> | **You need to have \`MANAGE_CHANNELS\` permission.**").catch(() => {})
-    
-            tickets.findOne({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id }, async (err, data) => {
-                if (!data) return
-    
-                await tickets.findOneAndDelete({ GuildId: button.guild.id, UserId: button.channel.topic.slice(40), ChannelId: button.channel.id })
-            })
-            
-            button.channel.delete()
         }
     }
 }
