@@ -5,7 +5,7 @@ module.exports = {
     name: "ticket-channel",
     aliases: ["ticket-embed"],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         let channel = message.mentions.channels.first()
 
         if (!channel) {

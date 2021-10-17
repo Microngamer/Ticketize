@@ -5,7 +5,7 @@ module.exports = {
     name: "unclaim",
     aliases: ["lock"],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         if (!message.channel.topic || !message.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return
         if (!message.channel.permissionsFor(message.guild.roles.everyone).has("VIEW_CHANNEL")) return send_error(message, "This ticket is not claimed.").catch(() => {})
 

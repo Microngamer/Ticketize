@@ -4,7 +4,7 @@ const { MessageMenuOption, MessageMenu } = require("discord-buttons")
 module.exports = {
     name: "help",
     aliases: ["commands-list"],
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         var option1 = new MessageMenuOption()
         .setLabel(`General Commands`)
         .setDescription(`All general commands`)

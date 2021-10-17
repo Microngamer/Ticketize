@@ -2,7 +2,7 @@ module.exports = {
     name: "add",
     aliases: [],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         let member = message.mentions.members.first()
 
         if (!member) {

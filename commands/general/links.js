@@ -4,7 +4,7 @@ const { MessageActionRow, MessageButton } = require("discord-buttons")
 module.exports = {
     name: "links",
     aliases: ["invite", "support", "vote", "github", "socials"],
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         var button1 = new MessageButton()
         .setLabel("Invite")
         .setStyle("url")

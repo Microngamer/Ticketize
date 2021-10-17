@@ -3,7 +3,7 @@ const DiscordJS = require("discord.js")
 module.exports = {
     name: "eval",
     aliases: [],
-    async execute(message, args, prefix) {
+    async execute(message, args) {
         if (message.author.id != "658325242346864661") return send_error(message, "This command is avaible only my owner.")
 
         let evaled = args.join(" ")

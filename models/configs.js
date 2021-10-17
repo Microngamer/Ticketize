@@ -7,6 +7,7 @@ module.exports = mongo.model(
         Prefix: String,
         CategoryId: String,
         ChannelId: String,
+        LogsChannelId: String,
         RoleId: String,
         MessageId: String
     })

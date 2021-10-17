@@ -5,7 +5,7 @@ module.exports = {
     name: "embed-text",
     aliases: ["ticket-text"],
     permission: "MANAGE_MESSAGES",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         let query = args[0]
 
         if (!query) return send_error(message, "You need to specify what to change, the options are title, description or footer.")

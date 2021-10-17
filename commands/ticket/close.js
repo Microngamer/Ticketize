@@ -5,7 +5,7 @@ module.exports = {
     name: "close",
     aliases: [],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         if (!message.channel.topic || !message.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return send_error(message, "This command is avaible only a ticket channel.")
 
         message.channel.send("<:TicketizeMARK:883296061911871488> | **The ticket will be close in a few seconds.**")

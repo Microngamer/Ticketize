@@ -2,7 +2,7 @@ module.exports = {
     name: "support-role",
     aliases: ["ticket-role", "ticket-support"],
     permission: "MANAGE_ROLES",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         let role = message.mentions.roles.first()
 
         if (!role) {

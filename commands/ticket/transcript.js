@@ -5,7 +5,7 @@ module.exports = {
     name: "transcript",
     aliases: ["ts"],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         if (!message.channel.topic || !message.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return send_error(message, "This command is avaible only a ticket channel.")
 
         DiscordTRANSCRIPT.fetchTranscript(message.channel, message, 99).then(data => {

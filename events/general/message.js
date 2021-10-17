@@ -31,7 +31,7 @@ module.exports = {
 
         try {
             if (cooldowns.has(message.author.id)) return send_error(message, `You are in a cooldown of 3 seconds.`)
-            run_command.execute(message, args, prefix)
+            run_command.execute(message, args)
 
             cooldowns.set(message.author.id)
 

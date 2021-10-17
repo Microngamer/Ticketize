@@ -5,7 +5,7 @@ module.exports = {
     name: "claim",
     aliases: ["unlock"],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         if (!message.channel.topic || !message.channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) return send_error(message, "This command is avaible only a ticket channel.")
         if (message.channel.permissionsFor(message.guild.roles.everyone).has("VIEW_CHANNEL")) return send_error(message, "This ticket channel is already claimed.")
 

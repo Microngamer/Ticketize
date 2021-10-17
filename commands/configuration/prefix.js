@@ -2,11 +2,10 @@ module.exports = {
     name: "prefix",
     aliases: ["set-prefix"],
     permission: "MANAGE_MESSAGES",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         let query = args[0]
 
         if (!query) return send_error(message, "You didn't provide a prefix.")
-        if (query == prefix) return send_error(message, "This is already the prefix.")
         if (query.length > 5) return send_error(message, "The prefix must be under 5 characters.")
 
         configs.findOne({ GuildId: message.guild.id }, async (err, data) => {

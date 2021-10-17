@@ -2,7 +2,7 @@ module.exports = {
     name: "reset-system",
     aliases: ["reset"],
     permission: "MANAGE_CHANNELS",
-    async execute (message, args, prefix) {
+    async execute (message, args) {
         configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
             if (!data) return send_error(message, "In this server there isn't a ticket system.")
 
