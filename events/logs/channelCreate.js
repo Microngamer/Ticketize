@@ -1,7 +1,7 @@
 module.exports = {
     name: "channelCreate",
     async execute (channel) {
-        if (channel.topic && channel.topic.startsWith("User ID:")) {
+        if (channel.topic && channel.topic.startsWith(`Tickets powered by ${client.user.username} | User ID:`)) {
             send_log(
                 channel,
                 "Ticket OPENED",
