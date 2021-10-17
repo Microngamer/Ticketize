@@ -37,7 +37,7 @@ global.send_error = async function(param, text) {
     })
 }
 global.send_log = async function(param, title, color, description) {
-    configs.findOne({ GuildId: message.guild.id }, async (err, data) => {
+    configs.findOne({ GuildId: param.guild.id }, async (err, data) => {
         if (!data) return
 
         var embed = new DiscordJS.MessageEmbed()
